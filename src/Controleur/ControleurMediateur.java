@@ -27,7 +27,7 @@ package Controleur;
  *          38401 Saint Martin d'Hères
  */
 
-import Modele.Jeu;
+import Structures.Jeu;
 import Vue.CollecteurEvenements;
 
 public class ControleurMediateur implements CollecteurEvenements {
@@ -44,7 +44,7 @@ public class ControleurMediateur implements CollecteurEvenements {
 		typeJoueur = new int[2];
 		for (int i = 0; i < joueurs.length; i++) {
 			joueurs[i][0] = new JoueurHumain(i, jeu);
-			joueurs[i][1] = new JoueurIA(i, jeu);
+//			joueurs[i][1] = new JoueurIA(i, jeu);
 			typeJoueur[i] = 0;
 		}
 	}
@@ -63,7 +63,7 @@ public class ControleurMediateur implements CollecteurEvenements {
 	}
 
 	public void tictac() {
-		if (jeu.enCours()) {
+		if (jeu.en_cours()) {
 			if (decompte == 0) {
 				int type = typeJoueur[joueurCourant];
 				// Lorsque le temps est écoulé on le transmet au joueur courant.
@@ -88,8 +88,8 @@ public class ControleurMediateur implements CollecteurEvenements {
 	}
 
 	@Override
-	public void changeTaille(int t) {
-		System.out.println("Nouvelle taille " + t);
-		jeu.reset(t);
+	public void changeTaille(int nb_lignes, int nb_colonnes) {
+		System.out.println("Nouvelle taille " + nb_lignes + ", " + nb_colonnes);
+		jeu.nouvelle_partie(nb_lignes, nb_colonnes);
 	}
 }

@@ -26,7 +26,7 @@ package Vue;
  *          38401 Saint Martin d'Hères
  */
 
-import Modele.Jeu;
+import Structures.Jeu;
 import Patterns.Observateur;
 
 import javax.swing.*;
@@ -44,31 +44,41 @@ public class NiveauGraphique extends JComponent implements Observateur {
 	@Override
 	public void paintComponent(Graphics g) {
 		Graphics2D drawable = (Graphics2D) g;
-        int lignes = jeu.hauteur();
-        int colonnes = jeu.largeur();
+        int lignes = jeu.plateau().get_nb_lignes();
+        int colonnes = jeu.plateau().get_nb_colonnes();
         largeurCase = largeur() / colonnes;
         hauteurCase = hauteur() / lignes;
 
         g.clearRect(0, 0, largeur(), hauteur());
-        if (!jeu.enCours())
+        if (!jeu.en_cours())
             g.drawString("Fin", 20, hauteur()/2);
-        // Grille
-        for (int i=1; i<lignes;i++) {
-            g.drawLine(0, i*hauteurCase, largeur(), i*hauteurCase);
-            g.drawLine(i*largeurCase, 0, i*largeurCase, hauteur());
-        }
-        // Coups
-        for (int i=0; i<lignes; i++)
-            for (int j=0; j<colonnes; j++)
-                switch (jeu.valeur(i, j)) {
-                    case 0:
-                        g.drawOval(j*largeurCase, i*hauteurCase, largeurCase, hauteurCase);
-                        break;
-                    case 1:
-                        g.drawLine(j*largeurCase, i*hauteurCase, (j+1)*largeurCase, (i+1)*hauteurCase);
-                        g.drawLine(j*largeurCase, (i+1)*hauteurCase, (j+1)*largeurCase, i*hauteurCase);
-                        break;
-                }
+		for (int i=0; i<lignes; i++){
+			for (int j=0; j<colonnes; j++){
+				if (jeu.plateau().get_tableau(i, j).est_vide()){ //estVide()
+					g.setColor(new Color(238, 204, 147));
+					g.fillRect(j*largeurCase, i*hauteurCase, largeurCase, hauteurCase);
+				}
+//				else if (jeu.valeur(i, j) != -1){ //J1
+////					g.setColor(new Color(238, 204, 147, (jeu.tour/jeu.valeur(i, j))));
+////					g.fillRect(j*largeurCase, i*hauteurCase, largeurCase, hauteurCase);
+//				}
+			}
+		}
+
+		g.setColor(new Color(154,190,38));
+		g.fillRect(0, 0, largeurCase, hauteurCase);
+
+		// Grille
+		g.setColor(Color.BLACK);
+		int k;
+		for (int i=1; i<lignes;i++) {
+			for (k = 0; (k<colonnes) && (jeu.plateau().get_tableau(i, k).est_vide()); k++);
+			g.drawLine(0, i*hauteurCase, k*largeurCase, i*hauteurCase);
+		}
+		for (int i=1; i<colonnes;i++) {
+			for (k = 0; k<lignes && jeu.plateau().get_tableau(k, i).est_vide(); k++);
+			g.drawLine(i*largeurCase, 0, i*largeurCase, k*hauteurCase);
+		}
 	}
 
 	int largeur() {

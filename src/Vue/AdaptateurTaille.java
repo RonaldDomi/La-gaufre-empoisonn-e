@@ -32,19 +32,23 @@ import java.awt.event.ActionListener;
 
 public class AdaptateurTaille implements ActionListener {
 	CollecteurEvenements control;
-	JTextField text;
+	JTextField textLig;
+	JTextField textCol;
 
-	AdaptateurTaille(CollecteurEvenements c, JTextField t) {
+	AdaptateurTaille(CollecteurEvenements c, JTextField tL, JTextField tC) {
 		control = c;
-		text = t;
+		textLig = tL;
+		textCol = tC;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String ch = text.getText();
+		String chL = textLig.getText();
+		String chC = textCol.getText();
 		try {
-			int val = Integer.parseInt(ch);
-			control.changeTaille(val);
+			int valL = Integer.parseInt(chL);
+			int valC = Integer.parseInt(chC);
+			control.changeTaille(valL, valC);
 		} catch (Exception ex) {
 			// On ne fait rien si la valeur est invalide
 		}

@@ -25,7 +25,7 @@ package Vue;/*
  *          38401 Saint Martin d'Hères
  */
 
-import Modele.Jeu;
+import Structures.Jeu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,12 +33,10 @@ import java.awt.*;
 public class InterfaceGraphique implements Runnable {
 	Jeu j;
 	CollecteurEvenements control;
-	int size;
 
 	InterfaceGraphique(Jeu jeu, CollecteurEvenements c) {
 		j = jeu;
 		control = c;
-		size = 3;
 	}
 
 	public static void demarrer(Jeu j, CollecteurEvenements control) {
@@ -52,20 +50,54 @@ public class InterfaceGraphique implements Runnable {
 		niv.addMouseListener(new AdaptateurSouris(niv, control));
 		frame.add(niv);
 		Box barre = Box.createVerticalBox();
+		Box barre2;
+
+		barre.add(new JLabel("Au tour de"));
+		barre.add(new JLabel("Joueur 1"));
+
 		barre.add(Box.createGlue());
-		barre.add(new JLabel("Taille"));
-		JTextField userSize = new JTextField();
-		userSize.setMaximumSize(new Dimension(
-				userSize.getMaximumSize().width, userSize.getMinimumSize().height));
-		userSize.addActionListener(new AdaptateurTaille(control, userSize));
-		barre.add(userSize);
+
+		barre2 = Box.createHorizontalBox();
+		JButton butUndo = new JButton("Undo");
+//		butUndo.addActionListener(); TODO
+		JButton butRedo = new JButton("Redo");
+//		butRedo.addActionListener(); TODO
+		barre2.add(butUndo);
+		barre2.add(butRedo);
+		barre.add(barre2);
+
 		barre.add(Box.createGlue());
+
+		barre.add(new JLabel("Taille :"));
+
+		JTextField userSizeRows = new JTextField("6");
+		JTextField userSizeCols = new JTextField("8");
+		userSizeRows.setMaximumSize(new Dimension(
+				userSizeRows.getMaximumSize().width, userSizeRows.getMinimumSize().height));
+		userSizeRows.addActionListener(new AdaptateurTaille(control, userSizeRows, userSizeCols));
+		userSizeCols.setMaximumSize(new Dimension(
+				userSizeCols.getMaximumSize().width, userSizeCols.getMinimumSize().height));
+		userSizeCols.addActionListener(new AdaptateurTaille(control, userSizeRows, userSizeCols));
+
+		barre2 = Box.createHorizontalBox();
+		barre2.add(new JLabel("Lignes "));
+		barre2.add(userSizeRows);
+		barre.add(barre2);
+
+		barre2 = Box.createHorizontalBox();
+		barre2.add(new JLabel("Colonnes "));
+		barre2.add(userSizeCols);
+		barre.add(barre2);
+
+		barre.add(Box.createGlue());
+
 		for (int i=0; i<2; i++) {
 			barre.add(new JLabel("Joueur " + (i+1)));
 			JToggleButton but = new JToggleButton("IA");
 			but.addActionListener(new AdaptateurJoueur(control, but, i));
 			barre.add(but);
 		}
+
 		barre.add(Box.createGlue());
 		frame.add(barre, BorderLayout.LINE_END);
 
