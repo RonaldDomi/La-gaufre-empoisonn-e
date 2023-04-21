@@ -108,6 +108,8 @@ public class InterfaceGraphique implements Runnable {
 		ActionListener actionff1 = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				j.set_gagnant(2);
+				j.metAJour();
 			}
 		};
 		ff.addActionListener(actionff1);
@@ -126,6 +128,8 @@ public class InterfaceGraphique implements Runnable {
 		ActionListener actionff2 = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				j.set_gagnant(1);
+				j.metAJour();
 			}
 		};
 		ff.addActionListener(actionff2);
