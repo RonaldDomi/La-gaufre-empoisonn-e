@@ -26,7 +26,7 @@ package Controleur;
  *          38401 Saint Martin d'Hères
  */
 
-import Modele.Jeu;
+import Structures.Jeu;
 
 // Classe commune à tous les joueurs : IA ou humain
 // L'idée est que, en ayant la même interface, tous les joueurs sont traités de la même

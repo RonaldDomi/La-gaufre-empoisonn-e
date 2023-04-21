@@ -1,6 +1,6 @@
-package Controleur;
 /*
  * Morpion pédagogique
+
  * Copyright (C) 2016 Guillaume Huard
 
  * Ce programme est libre, vous pouvez le redistribuer et/ou le
@@ -25,25 +25,15 @@ package Controleur;
  *          38401 Saint Martin d'Hères
  */
 
+import Controleur.ControleurMediateur;
 import Structures.Jeu;
+import Vue.CollecteurEvenements;
+import Vue.InterfaceGraphique;
 
-class JoueurHumain extends Joueur {
-	JoueurHumain(int n, Jeu p) {
-		super(n, p);
-	}
-
-	@Override
-	boolean jeu(int i, int j) {
-		// A adapter selon le jeu,
-		// Un coup peut être constitué de plusieurs passages par cette fonction, ex :
-		// - selection d'un pièce + surlignage des coups possibles
-		// - selection de la destination
-		// Autrement dit une machine à état peut aussi être gérée par un objet de cette
-		// classe. Dans le cas du morpion, un clic suffit.
-		if (plateau.jouer_coup(i, j)) {
-			return true;
-		} else {
-			return false;
-		}
+public class Gaufre {
+	public static void main(String[] args) {
+		Jeu j = new Jeu(6, 8);
+		CollecteurEvenements control = new ControleurMediateur(j);
+		InterfaceGraphique.demarrer(j, control);
 	}
 }
