@@ -29,10 +29,15 @@ import Structures.Jeu;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class InterfaceGraphique implements Runnable {
 	Jeu j;
 	CollecteurEvenements control;
+
+	static Font h1 = new Font("TimesRoman", Font.PLAIN, 20);
+	static Font h2 = new Font("TimesRoman", Font.PLAIN, 15);
 
 	InterfaceGraphique(Jeu jeu, CollecteurEvenements c) {
 		j = jeu;
@@ -51,24 +56,48 @@ public class InterfaceGraphique implements Runnable {
 		frame.add(niv);
 		Box barre = Box.createVerticalBox();
 		Box barre2;
+		JLabel label;
 
-		barre.add(new JLabel("Au tour de"));
-		barre.add(new JLabel("Joueur 1"));
+		label = new JLabel("Au tour de");
+		label.setFont(h1);
+		label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+		barre.add(label);
+		label = new JLabel("Joueur 1");
+		label.setFont(h1);
+		label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+		barre.add(label);
 
 		barre.add(Box.createGlue());
 
 		barre2 = Box.createHorizontalBox();
 		JButton butUndo = new JButton("Undo");
-//		butUndo.addActionListener(); TODO
+		ActionListener actionUndo = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				j.annuler_coup();
+			}
+		};
+		butUndo.addActionListener(actionUndo);
+
 		JButton butRedo = new JButton("Redo");
-//		butRedo.addActionListener(); TODO
+		ActionListener actionRedo = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				j.refaire_coup();
+			}
+		};
+		butRedo.addActionListener(actionRedo);
+
 		barre2.add(butUndo);
 		barre2.add(butRedo);
 		barre.add(barre2);
 
 		barre.add(Box.createGlue());
 
-		barre.add(new JLabel("Taille :"));
+		label = new JLabel("Taille :");
+		label.setFont(h1);
+		label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+		barre.add(label);
 
 		JTextField userSizeRows = new JTextField("6");
 		JTextField userSizeCols = new JTextField("8");
@@ -80,12 +109,18 @@ public class InterfaceGraphique implements Runnable {
 		userSizeCols.addActionListener(new AdaptateurTaille(control, userSizeRows, userSizeCols));
 
 		barre2 = Box.createHorizontalBox();
-		barre2.add(new JLabel("Lignes "));
+		label = new JLabel("Lignes");
+		label.setFont(h2);
+		label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+		barre2.add(label);
 		barre2.add(userSizeRows);
 		barre.add(barre2);
 
 		barre2 = Box.createHorizontalBox();
-		barre2.add(new JLabel("Colonnes "));
+		label = new JLabel("Colonnes");
+		label.setFont(h2);
+		label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+		barre2.add(label);
 		barre2.add(userSizeCols);
 		barre.add(barre2);
 

@@ -41,7 +41,7 @@ public class Plateau {
         return tableau[ligne][colonne];
     }
 
-    void placer_coup(int joueur, int ligne, int colonne, int tour){
+    Coup placer_coup(int joueur, int ligne, int colonne, int tour){
         Coup nouveau_coup = new Coup(joueur, new Position(ligne, colonne), tour);
         for (int i = ligne; i < nombre_lignes(); i++) {
             for (int j = colonne; j < nombre_colonnes(); j++) {
@@ -50,6 +50,7 @@ public class Plateau {
                 }
             }
         }
+        return nouveau_coup;
     }
 
     public int get_nb_lignes(){

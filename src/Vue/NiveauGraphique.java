@@ -50,8 +50,9 @@ public class NiveauGraphique extends JComponent implements Observateur {
         hauteurCase = hauteur() / lignes;
 
         g.clearRect(0, 0, largeur(), hauteur());
+		g.setFont(new Font("TimesRoman", Font.PLAIN, largeur()/20));
         if (!jeu.en_cours())
-            g.drawString("Fin", 20, hauteur()/2);
+			g.drawString("Le Joueur " + jeu.gagnant() + " a gagné !", largeur()/4, hauteur()/2);
 		for (int i=0; i<lignes; i++){
 			for (int j=0; j<colonnes; j++){
 				if (jeu.plateau().get_tableau(i, j).est_vide()){ //estVide()

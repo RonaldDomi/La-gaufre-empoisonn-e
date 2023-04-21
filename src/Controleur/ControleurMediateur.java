@@ -72,7 +72,7 @@ public class ControleurMediateur implements CollecteurEvenements {
 					changeJoueur();
 				} else {
 				// Sinon on indique au joueur qui ne réagit pas au temps (humain) qu'on l'attend.
-					System.out.println("On vous attend, joueur " + joueurs[joueurCourant][type].num());
+//					System.out.println("On vous attend, joueur " + joueurs[joueurCourant][type].num());
 					decompte = lenteurAttente;
 				}
 			} else {
