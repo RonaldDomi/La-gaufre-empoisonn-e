@@ -21,7 +21,19 @@ public class Coup {
         return joueur == -1;
     }
 
+    public void vider(){
+        joueur = -1;
+    }
+
+    public void changer_joueur(int nouveau_joueur){
+        joueur = nouveau_joueur;
+    }
+
     public int num_joueur(){
         return joueur;
+    }
+
+    public String toString(){
+        return "[" + joueur + "," + position + "," + tour + "]";
     }
 }

@@ -8,4 +8,8 @@ public class Position {
         this.ligne = ligne;
         this.colonne = colonne;
     }
+
+    public String toString(){
+        return "("+ ligne + "," + colonne +")";
+    }
 }
