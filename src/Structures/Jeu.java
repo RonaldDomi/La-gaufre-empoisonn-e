@@ -13,6 +13,7 @@ public class Jeu extends Observable {
     public Jeu(Plateau plateau){
         this.plateau = plateau;
     }
+
     public Jeu(){
         this.plateau = new Plateau();
         this.historique = null;

@@ -8,7 +8,7 @@ public class Plateau {
     Plateau(Coup[][] plateau){
         this.tableau = plateau;
         //TODO
-        //calcule nb_ligne, nb_colonne
+        //calcule nb_lignes, nb_colonnes
     }
 
     Plateau(){
