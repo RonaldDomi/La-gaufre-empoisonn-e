@@ -9,6 +9,10 @@ public class Position {
         this.colonne = colonne;
     }
 
+    public boolean test_position(int ligne, int colonne){
+        return this.ligne == ligne && this.colonne == colonne;
+    }
+
     public String toString(){
         return "("+ ligne + "," + colonne +")";
     }

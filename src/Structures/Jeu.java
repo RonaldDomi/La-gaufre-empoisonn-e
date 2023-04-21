@@ -29,6 +29,10 @@ public class Jeu extends Observable {
         return plateau;
     }
 
+    public void set_gagnant(int joueur){
+        gagnant = joueur;
+    }
+
     public void nouvelle_partie(int nb_lignes, int nb_colonnes){
         this.plateau = new Plateau(nb_lignes, nb_colonnes);
         this.historique = new Historique();
@@ -66,6 +70,7 @@ public class Jeu extends Observable {
         Coup coup_annule = historique.annuler_coup();
         if (coup_annule != null) {
             coup_annule.vider();
+            gagnant = -1;
             joueur_courant = (1 - (joueur_courant - 1)) + 1;
             tour--;
             metAJour();
@@ -75,6 +80,9 @@ public class Jeu extends Observable {
     public void refaire_coup(){
         Coup coup_refait = historique.refaire_coup();
         if (coup_refait != null) {
+            if (coup_refait.position.test_position(0, 0)){
+                gagnant = joueur_courant;
+            }
             joueur_courant = (1 - (joueur_courant - 1)) + 1;
             coup_refait.changer_joueur(joueur_courant);
             tour++;

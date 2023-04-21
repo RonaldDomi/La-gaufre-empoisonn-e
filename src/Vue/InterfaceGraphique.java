@@ -37,6 +37,7 @@ public class InterfaceGraphique implements Runnable {
 	CollecteurEvenements control;
 
 	static Font h1 = new Font("TimesRoman", Font.PLAIN, 20);
+	static Font h1Bold = new Font("TimesRoman", Font.BOLD, 20);
 	static Font h2 = new Font("TimesRoman", Font.PLAIN, 15);
 
 	InterfaceGraphique(Jeu jeu, CollecteurEvenements c) {
@@ -55,21 +56,88 @@ public class InterfaceGraphique implements Runnable {
 		niv.addMouseListener(new AdaptateurSouris(niv, control));
 		frame.add(niv);
 		Box barre = Box.createVerticalBox();
-		Box barre2;
 		JLabel label;
 
-		label = new JLabel("Au tour de");
-		label.setFont(h1);
-		label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-		barre.add(label);
-		label = new JLabel("Joueur 1");
-		label.setFont(h1);
-		label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-		barre.add(label);
+		info_joueur(barre);
 
 		barre.add(Box.createGlue());
 
+		fichier(barre);
+
+		barre.add(Box.createGlue());
+
+		historique(barre);
+
+		barre.add(Box.createGlue());
+
+		taille(barre);
+
+		barre.add(Box.createGlue());
+
+		choisir_IA(barre);
+
+		barre.add(Box.createGlue());
+
+		frame.add(barre, BorderLayout.LINE_END);
+
+		Timer chrono = new Timer( 16, new AdaptateurTemps(control));
+		chrono.start();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(500, 500);
+		frame.setVisible(true);
+	}
+
+	private void info_joueur(Box barre){
+		JLabel label;
+
+		Box barre2 ;
+		label = new JLabel("Au tour de :");
+		label.setFont(h1);
+		label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+		barre.add(label);
+
+
 		barre2 = Box.createHorizontalBox();
+		JLabel nom1 = new JLabel("Joueur 1 ");
+		nom1.setFont(h1Bold);
+		nom1.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+		barre2.add(nom1);
+
+		JButton ff;
+		ff = new JButton("⚐");
+		ActionListener actionff1 = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			}
+		};
+		ff.addActionListener(actionff1);
+
+		barre2.add(ff);
+		barre.add(barre2);
+
+
+		barre2 = Box.createHorizontalBox();
+		JLabel nom2 = new JLabel("Joueur 2 ");
+		nom2.setFont(h1Bold);
+		nom2.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+		barre2.add(nom2);
+
+		ff = new JButton("⚐");
+		ActionListener actionff2 = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			}
+		};
+		ff.addActionListener(actionff2);
+
+		barre2.add(ff);
+		barre.add(barre2);
+	}
+
+	private void historique(Box barre){
+
+		Box barre2 = Box.createHorizontalBox();
+
 		JButton butUndo = new JButton("Undo");
 		ActionListener actionUndo = new ActionListener() {
 			@Override
@@ -88,11 +156,59 @@ public class InterfaceGraphique implements Runnable {
 		};
 		butRedo.addActionListener(actionRedo);
 
+		barre2.add(Box.createGlue());
 		barre2.add(butUndo);
+		barre2.add(Box.createGlue());
 		barre2.add(butRedo);
+		barre2.add(Box.createGlue());
 		barre.add(barre2);
+	}
 
-		barre.add(Box.createGlue());
+	private void fichier(Box barre){
+
+		Box barre2 = Box.createHorizontalBox();
+
+		JButton butUndo = new JButton("Sauvegarder");
+		ActionListener actionUndo = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser Save = new JFileChooser();
+				int r = Save.showSaveDialog(null);
+				if (r == JFileChooser.APPROVE_OPTION) {
+					System.out.println("Sauvgarder " + Save.getSelectedFile().getAbsolutePath());
+				}
+				else
+					System.out.println("Sauvgarde annulée");
+			}
+		};
+		butUndo.addActionListener(actionUndo);
+
+		JButton butRedo = new JButton("Charger");
+		ActionListener actionRedo = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser Load = new JFileChooser();
+				int r = Load.showOpenDialog(null);
+				if (r == JFileChooser.APPROVE_OPTION) {
+					System.out.println("Charger " + Load.getSelectedFile().getAbsolutePath());
+				}
+				else
+					System.out.println("Chargement annulée");
+			}
+		};
+		butRedo.addActionListener(actionRedo);
+
+		barre2.add(Box.createGlue());
+		barre2.add(butUndo);
+		barre2.add(Box.createGlue());
+		barre2.add(butRedo);
+		barre2.add(Box.createGlue());
+		barre.add(barre2);
+	}
+
+	private void taille(Box barre){
+		Box barre2;
+		JLabel label;
 
 		label = new JLabel("Taille :");
 		label.setFont(h1);
@@ -102,14 +218,14 @@ public class InterfaceGraphique implements Runnable {
 		JTextField userSizeRows = new JTextField("6");
 		JTextField userSizeCols = new JTextField("8");
 		userSizeRows.setMaximumSize(new Dimension(
-				userSizeRows.getMaximumSize().width, userSizeRows.getMinimumSize().height));
+				(userSizeRows.getMaximumSize().width), userSizeRows.getMinimumSize().height));
 		userSizeRows.addActionListener(new AdaptateurTaille(control, userSizeRows, userSizeCols));
 		userSizeCols.setMaximumSize(new Dimension(
-				userSizeCols.getMaximumSize().width, userSizeCols.getMinimumSize().height));
+				(userSizeCols.getMaximumSize().width), userSizeCols.getMinimumSize().height));
 		userSizeCols.addActionListener(new AdaptateurTaille(control, userSizeRows, userSizeCols));
 
 		barre2 = Box.createHorizontalBox();
-		label = new JLabel("Lignes");
+		label = new JLabel("Lignes ");
 		label.setFont(h2);
 		label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		barre2.add(label);
@@ -117,29 +233,32 @@ public class InterfaceGraphique implements Runnable {
 		barre.add(barre2);
 
 		barre2 = Box.createHorizontalBox();
-		label = new JLabel("Colonnes");
+		label = new JLabel("Colonnes ");
 		label.setFont(h2);
 		label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		barre2.add(label);
 		barre2.add(userSizeCols);
 		barre.add(barre2);
 
-		barre.add(Box.createGlue());
+		JButton reset = new JButton("Recommencer ");
+		reset.addActionListener(new AdaptateurTaille(control, userSizeRows, userSizeCols));
+		reset.setAlignmentX(JButton.CENTER_ALIGNMENT);
 
+		barre.add(reset);
+	}
+
+	private void choisir_IA(Box barre){
+		Box barre2;
 		for (int i=0; i<2; i++) {
-			barre.add(new JLabel("Joueur " + (i+1)));
-			JToggleButton but = new JToggleButton("IA");
-			but.addActionListener(new AdaptateurJoueur(control, but, i));
-			barre.add(but);
+			barre2 = Box.createHorizontalBox();
+			barre2.add(new JLabel("Joueur " + (i+1) + " "));
+			for (int j = 0; j < 3; j++) {
+				JToggleButton but = new JToggleButton("IA"+j);
+				but.addActionListener(new AdaptateurJoueur(control, but, i));
+				barre2.add(but);
+			}
+
+			barre.add(barre2);
 		}
-
-		barre.add(Box.createGlue());
-		frame.add(barre, BorderLayout.LINE_END);
-
-		Timer chrono = new Timer( 16, new AdaptateurTemps(control));
-		chrono.start();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(500, 500);
-		frame.setVisible(true);
 	}
 }
