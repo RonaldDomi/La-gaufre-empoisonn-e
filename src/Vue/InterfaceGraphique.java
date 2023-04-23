@@ -52,13 +52,17 @@ public class InterfaceGraphique implements Runnable {
 	@Override
 	public void run() {
 		JFrame frame = new JFrame("Ma fenetre a moi");
-		NiveauGraphique niv = new NiveauGraphique(j);
+
+		JLabel nom1 = new JLabel("Joueur 1 ");
+		JLabel nom2 = new JLabel("Joueur 2 ");
+
+		NiveauGraphique niv = new NiveauGraphique(j, nom1, nom2);
 		niv.addMouseListener(new AdaptateurSouris(niv, control));
 		frame.add(niv);
 		Box barre = Box.createVerticalBox();
 		JLabel label;
 
-		info_joueur(barre);
+		info_joueur(barre, nom1, nom2);
 
 		barre.add(Box.createGlue());
 
@@ -87,7 +91,7 @@ public class InterfaceGraphique implements Runnable {
 		frame.setVisible(true);
 	}
 
-	private void info_joueur(Box barre){
+	private void info_joueur(Box barre, JLabel nom1, JLabel nom2){
 		JLabel label;
 
 		Box barre2 ;
@@ -98,7 +102,6 @@ public class InterfaceGraphique implements Runnable {
 
 
 		barre2 = Box.createHorizontalBox();
-		JLabel nom1 = new JLabel("Joueur 1 ");
 		nom1.setFont(h1Bold);
 		nom1.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		barre2.add(nom1);
@@ -108,8 +111,10 @@ public class InterfaceGraphique implements Runnable {
 		ActionListener actionff1 = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				j.set_gagnant(2);
-				j.metAJour();
+				if (j.gagnant() == -1){
+					j.set_gagnant(2);
+					j.metAJour();
+				}
 			}
 		};
 		ff.addActionListener(actionff1);
@@ -119,7 +124,6 @@ public class InterfaceGraphique implements Runnable {
 
 
 		barre2 = Box.createHorizontalBox();
-		JLabel nom2 = new JLabel("Joueur 2 ");
 		nom2.setFont(h1Bold);
 		nom2.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		barre2.add(nom2);
@@ -128,8 +132,10 @@ public class InterfaceGraphique implements Runnable {
 		ActionListener actionff2 = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				j.set_gagnant(1);
-				j.metAJour();
+				if (j.gagnant() == -1) {
+					j.set_gagnant(1);
+					j.metAJour();
+				}
 			}
 		};
 		ff.addActionListener(actionff2);
@@ -142,7 +148,7 @@ public class InterfaceGraphique implements Runnable {
 
 		Box barre2 = Box.createHorizontalBox();
 
-		JButton butUndo = new JButton("Undo");
+		JButton butUndo = new JButton("Annuler");
 		ActionListener actionUndo = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -151,7 +157,7 @@ public class InterfaceGraphique implements Runnable {
 		};
 		butUndo.addActionListener(actionUndo);
 
-		JButton butRedo = new JButton("Redo");
+		JButton butRedo = new JButton("Refaire");
 		ActionListener actionRedo = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

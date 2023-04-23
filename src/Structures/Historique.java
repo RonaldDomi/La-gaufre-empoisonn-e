@@ -27,8 +27,10 @@ public class Historique {
         }
 
         supprimer_suite_coup();
-        System.out.println("1 : " + coups_joueur1.toString());
-        System.out.println("2 : " + coups_joueur2.toString());
+        System.out.println("Historique : ");
+        System.out.println("1 : " + coups_joueur1);
+        System.out.println("2 : " + coups_joueur2);
+        System.out.println();
     }
 
     Coup annuler_coup(/* Prend un coup ? Ou on doit déterminer le dernier ? */){

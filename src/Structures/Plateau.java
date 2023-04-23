@@ -5,6 +5,8 @@ public class Plateau {
     int nb_lignes;
     int nb_colonnes;
 
+    Coup coup_vide;
+
     Plateau(Coup[][] plateau){
         this.tableau = plateau;
         //TODO
@@ -30,11 +32,15 @@ public class Plateau {
     }
 
     Coup[][] init_tableau(){
-        Coup vide = new Coup();
+        coup_vide = new Coup();
         for (int i = 0; i < nb_lignes; i++)
             for (int j = 0; j < nb_colonnes; j++)
-                tableau[i][j] = vide;
+                tableau[i][j] = coup_vide;
         return tableau;
+    }
+
+    Coup get_coup_vide(){
+        return coup_vide;
     }
 
     public Coup get_tableau(int ligne, int colonne){
@@ -45,12 +51,23 @@ public class Plateau {
         Coup nouveau_coup = new Coup(joueur, new Position(ligne, colonne), tour);
         for (int i = ligne; i < nombre_lignes(); i++) {
             for (int j = colonne; j < nombre_colonnes(); j++) {
-                if (get_tableau(i, j).est_vide()){
+                if (get_tableau(i, j).num_joueur() < 0){
                     tableau[i][j] = nouveau_coup;
                 }
             }
         }
         return nouveau_coup;
+    }
+
+    Coup placer_coup(Coup coup, int ligne, int colonne){
+        for (int i = ligne; i < nombre_lignes(); i++) {
+            for (int j = colonne; j < nombre_colonnes(); j++) {
+                if (get_tableau(i, j).num_joueur() < 0){
+                    tableau[i][j] = coup;
+                }
+            }
+        }
+        return coup;
     }
 
     public int get_nb_lignes(){
