@@ -89,14 +89,14 @@ public class Jeu extends Observable {
             if (!coup_previsualise.position().test_position(ligne, colonne))
                 plateau.placer_coup(plateau.get_coup_vide(), coup_previsualise.position().ligne, coup_previsualise.position().colonne); // Coup vide
             else{
-                if (ligne == 0 && colonne == 0){
-                    gagnant = joueur_courant;
-                }
                 coup_previsualise.changer_joueur(joueur_courant);
                 historique.ajouter_coup(coup_previsualise);
                 coup_previsualise = null;
                 tour++;
                 joueur_courant = (1 - (joueur_courant - 1)) + 1;
+                if (ligne == 0 && colonne == 0){
+                    gagnant = joueur_courant;
+                }
                 metAJour();
                 return true;
             }
@@ -144,10 +144,10 @@ public class Jeu extends Observable {
     public void refaire_coup(){
         Coup coup_refait = historique.refaire_coup();
         if (coup_refait != null) {
+            joueur_courant = (1 - (joueur_courant - 1)) + 1;
             if (coup_refait.position.test_position(0, 0)){
                 gagnant = joueur_courant;
             }
-            joueur_courant = (1 - (joueur_courant - 1)) + 1;
             coup_refait.changer_joueur(joueur_courant);
             tour++;
             metAJour();
