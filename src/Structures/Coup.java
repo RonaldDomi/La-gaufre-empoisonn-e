@@ -21,6 +21,10 @@ public class Coup {
         return position;
     }
 
+    public int get_tour(){
+        return tour;
+    }
+
     public boolean est_vide(){
         return joueur == -1;
     }

@@ -35,8 +35,18 @@ import java.awt.*;
 public class NiveauGraphique extends JComponent implements Observateur {
 	Jeu jeu;
 	int largeurCase, hauteurCase;
+	JLabel nom1, nom2;
+	JButton Undo, Redo;
 
-	public NiveauGraphique(Jeu j) {
+	static Font h1 = new Font("TimesRoman", Font.PLAIN, 20);
+	static Font h1Bold = new Font("TimesRoman", Font.BOLD, 20);
+
+	public NiveauGraphique(Jeu j, JLabel nom1, JLabel nom2, JButton Undo, JButton Redo) {
+
+		this.nom1 = nom1;
+		this.nom2 = nom2;
+		this.Undo = Undo;
+		this.Redo = Redo;
 		jeu = j;
 		jeu.ajouteObservateur(this);
 	}
@@ -53,28 +63,59 @@ public class NiveauGraphique extends JComponent implements Observateur {
 		for (int i=0; i<lignes; i++){
 			for (int j=0; j<colonnes; j++){
 				if (jeu.plateau().get_tableau(i, j).est_vide()){ //estVide()
-					g.setColor(new Color(238, 204, 147));
+					if (i == 0 && j == 0 )
+						g.setColor(new Color(154,190,38));
+					else
+						g.setColor(new Color(238, 204, 147));
+					g.fillRect(j * largeurCase, i * hauteurCase, largeurCase, hauteurCase);
+				}
+				else if (jeu.plateau().get_tableau(i, j).get_tour() == jeu.get_tour()-1 && jeu.get_joueur_courant() == 1){
+					g.setColor(new Color(218, 97, 97, 64));
 					g.fillRect(j*largeurCase, i*hauteurCase, largeurCase, hauteurCase);
 				}
-//				else if (jeu.valeur(i, j) != -1){ //J1
-////					g.setColor(new Color(238, 204, 147, (jeu.tour/jeu.valeur(i, j))));
-////					g.fillRect(j*largeurCase, i*hauteurCase, largeurCase, hauteurCase);
-//				}
+				else if (jeu.plateau().get_tableau(i, j).num_joueur()==-2 && jeu.get_joueur_courant() == 2){
+					g.setColor(new Color(218, 97, 97/*, 64*/));
+					g.fillRect(j*largeurCase, i*hauteurCase, largeurCase, hauteurCase);
+				}
+				else if (jeu.plateau().get_tableau(i, j).get_tour() == jeu.get_tour()-1){
+					g.setColor(new Color(97, 126, 218, 64));
+					g.fillRect(j*largeurCase, i*hauteurCase, largeurCase, hauteurCase);
+				}
+				else if (jeu.plateau().get_tableau(i, j).num_joueur()==-2){
+					g.setColor(new Color(97, 126, 218/*, 64*/));
+					g.fillRect(j*largeurCase, i*hauteurCase, largeurCase, hauteurCase);
+				}
 			}
 		}
 
-		g.setColor(new Color(154,190,38));
-		g.fillRect(0, 0, largeurCase, hauteurCase);
+
+		//Joueur Courant
+		if (jeu.get_joueur_courant() == 1){
+//			nom1.setFont(h1Bold);
+			nom1.setText("• Joueur 1 ");
+//			nom2.setFont(h1);
+			nom2.setText("  Joueur 2 ");
+		}
+		else{
+//			nom2.setFont(h1Bold);
+			nom1.setText("  Joueur 1 ");
+//			nom1.setFont(h1);
+			nom2.setText("• Joueur 2 ");
+		}
+
+		//Disable/Enable Undo/Redo
+		Undo.setEnabled(jeu.get_historique().peut_annuler());
+		Redo.setEnabled(jeu.get_historique().peut_refaire());
 
 		// Grille
 		g.setColor(Color.BLACK);
 		int k;
 		for (int i=1; i<lignes;i++) {
-			for (k = 0; (k<colonnes) && (jeu.plateau().get_tableau(i, k).est_vide()); k++);
+			for (k = 0; (k<colonnes) && ((jeu.plateau().get_tableau(i, k).est_vide() || jeu.plateau().get_tableau(i, k).num_joueur()==-2)); k++);
 			g.drawLine(0, i*hauteurCase, k*largeurCase, i*hauteurCase);
 		}
 		for (int i=1; i<colonnes;i++) {
-			for (k = 0; k<lignes && jeu.plateau().get_tableau(k, i).est_vide(); k++);
+			for (k = 0; k<lignes && (jeu.plateau().get_tableau(k, i).est_vide() || jeu.plateau().get_tableau(k, i).num_joueur()==-2); k++);
 			g.drawLine(i*largeurCase, 0, i*largeurCase, k*hauteurCase);
 		}
 

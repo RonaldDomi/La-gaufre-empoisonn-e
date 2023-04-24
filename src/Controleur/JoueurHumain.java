@@ -40,7 +40,7 @@ class JoueurHumain extends Joueur {
 		// - selection de la destination
 		// Autrement dit une machine à état peut aussi être gérée par un objet de cette
 		// classe. Dans le cas du morpion, un clic suffit.
-		if (plateau.gagnant() == -1 && plateau.jouer_coup(i, j)) {
+		if (plateau.gagnant() == -1 && plateau.jouer_coup(i, j, -2)) {
 			return true;
 		} else {
 			return false;
