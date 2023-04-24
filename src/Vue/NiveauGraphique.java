@@ -36,14 +36,22 @@ public class NiveauGraphique extends JComponent implements Observateur {
 	Jeu jeu;
 	int largeurCase, hauteurCase;
 	JLabel nom1, nom2;
+	JButton Undo, Redo;
+	static Color rougeT = new Color(218, 97, 97, 64);
+	static Color rouge = new Color(218, 97, 97);
+
+	static Color bleuT = new Color(97, 126, 218, 64);
+	static Color bleu = new Color(97, 126, 218);
 
 	static Font h1 = new Font("TimesRoman", Font.PLAIN, 20);
 	static Font h1Bold = new Font("TimesRoman", Font.BOLD, 20);
 
-	public NiveauGraphique(Jeu j, JLabel nom1, JLabel nom2) {
+	public NiveauGraphique(Jeu j, JLabel nom1, JLabel nom2, JButton Undo, JButton Redo) {
 
 		this.nom1 = nom1;
 		this.nom2 = nom2;
+		this.Undo = Undo;
+		this.Redo = Redo;
 		jeu = j;
 		jeu.ajouteObservateur(this);
 	}
@@ -51,12 +59,12 @@ public class NiveauGraphique extends JComponent implements Observateur {
 	@Override
 	public void paintComponent(Graphics g) {
 		Graphics2D drawable = (Graphics2D) g;
-        int lignes = jeu.plateau().get_nb_lignes();
-        int colonnes = jeu.plateau().get_nb_colonnes();
-        largeurCase = largeur() / colonnes;
-        hauteurCase = hauteur() / lignes;
+		int lignes = jeu.plateau().get_nb_lignes();
+		int colonnes = jeu.plateau().get_nb_colonnes();
+		largeurCase = largeur() / colonnes;
+		hauteurCase = hauteur() / lignes;
 
-        g.clearRect(0, 0, largeur(), hauteur());
+		g.clearRect(0, 0, largeur(), hauteur());
 		for (int i=0; i<lignes; i++){
 			for (int j=0; j<colonnes; j++){
 				if (jeu.plateau().get_tableau(i, j).est_vide()){ //estVide()
@@ -67,19 +75,19 @@ public class NiveauGraphique extends JComponent implements Observateur {
 					g.fillRect(j * largeurCase, i * hauteurCase, largeurCase, hauteurCase);
 				}
 				else if (jeu.plateau().get_tableau(i, j).get_tour() == jeu.get_tour()-1 && jeu.get_joueur_courant() == 1){
-					g.setColor(new Color(218, 97, 97, 64));
+					g.setColor(rougeT);
 					g.fillRect(j*largeurCase, i*hauteurCase, largeurCase, hauteurCase);
 				}
 				else if (jeu.plateau().get_tableau(i, j).num_joueur()==-2 && jeu.get_joueur_courant() == 2){
-					g.setColor(new Color(218, 97, 97/*, 64*/));
+					g.setColor(rouge);
 					g.fillRect(j*largeurCase, i*hauteurCase, largeurCase, hauteurCase);
 				}
 				else if (jeu.plateau().get_tableau(i, j).get_tour() == jeu.get_tour()-1){
-					g.setColor(new Color(97, 126, 218, 64));
+					g.setColor(bleuT);
 					g.fillRect(j*largeurCase, i*hauteurCase, largeurCase, hauteurCase);
 				}
 				else if (jeu.plateau().get_tableau(i, j).num_joueur()==-2){
-					g.setColor(new Color(97, 126, 218/*, 64*/));
+					g.setColor(bleu);
 					g.fillRect(j*largeurCase, i*hauteurCase, largeurCase, hauteurCase);
 				}
 			}
@@ -89,16 +97,24 @@ public class NiveauGraphique extends JComponent implements Observateur {
 		//Joueur Courant
 		if (jeu.get_joueur_courant() == 1){
 //			nom1.setFont(h1Bold);
+			nom1.setForeground(bleu);
 			nom1.setText("• Joueur 1 ");
 //			nom2.setFont(h1);
+			nom2.setForeground(rougeT);
 			nom2.setText("  Joueur 2 ");
 		}
 		else{
 //			nom2.setFont(h1Bold);
+			nom1.setForeground(bleuT);
 			nom1.setText("  Joueur 1 ");
 //			nom1.setFont(h1);
+			nom2.setForeground(rouge);
 			nom2.setText("• Joueur 2 ");
 		}
+
+		//Disable/Enable Undo/Redo
+		Undo.setEnabled(jeu.get_historique().peut_annuler());
+		Redo.setEnabled(jeu.get_historique().peut_refaire());
 
 		// Grille
 		g.setColor(Color.BLACK);

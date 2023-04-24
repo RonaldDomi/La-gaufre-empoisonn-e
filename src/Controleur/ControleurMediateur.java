@@ -29,6 +29,7 @@ package Controleur;
 
 import Structures.Jeu;
 import Vue.CollecteurEvenements;
+import Vue.InterfaceUtilisateur;
 
 public class ControleurMediateur implements CollecteurEvenements {
 	Jeu jeu;
@@ -37,6 +38,12 @@ public class ControleurMediateur implements CollecteurEvenements {
 	int joueurCourant;
 	final int lenteurAttente = 50;
 	int decompte;
+
+	InterfaceUtilisateur vue;
+
+	public void ajouteInterfaceUtilisateur(InterfaceUtilisateur v){
+		vue = v;
+	}
 
 	public ControleurMediateur(Jeu j) {
 		jeu = j;
@@ -91,5 +98,19 @@ public class ControleurMediateur implements CollecteurEvenements {
 	public void changeTaille(int nb_lignes, int nb_colonnes) {
 		System.out.println("Nouvelle taille " + nb_lignes + ", " + nb_colonnes);
 		jeu.nouvelle_partie(nb_lignes, nb_colonnes);
+	}
+
+	@Override
+	public void toucheClavier(String t) {
+		System.out.println(t);
+		switch (t) {
+			case "Left":
+				break;
+			case "Full":
+				vue.toggleFullscreen();
+				break;
+			default:
+				System.out.println("Touche inconnue : " + t);
+		}
 	}
 }

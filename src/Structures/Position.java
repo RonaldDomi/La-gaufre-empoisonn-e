@@ -1,8 +1,8 @@
 package Structures;
 
 public class Position {
-    int ligne;
-    int colonne;
+    public int ligne;
+    public int colonne;
 
     public Position(int ligne, int colonne){
         this.ligne = ligne;
