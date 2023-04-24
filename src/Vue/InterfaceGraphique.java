@@ -187,8 +187,9 @@ public class InterfaceGraphique implements Runnable {
 				if (r == JFileChooser.APPROVE_OPTION) {
 					System.out.println("Sauvgarder " + Save.getSelectedFile().getAbsolutePath());
 				}
-				else
+				else{
 					System.out.println("Sauvgarde annulée");
+				}
 			}
 		};
 		butUndo.addActionListener(actionUndo);

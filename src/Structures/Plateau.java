@@ -15,6 +15,13 @@ public class Plateau {
 
     Plateau(){
     }
+    
+    Plateau(String coords){
+        String[] tabCoords = coords.split(" ");
+        this.nb_lignes = Integer.parseInt(tabCoords[0]);
+        this.nb_colonnes = Integer.parseInt(tabCoords[1]);
+        this.tableau = new Coup[nb_lignes][nb_colonnes];
+    }
 
     Plateau(int nb_lignes, int nb_colonnes){
         this.nb_lignes = nb_lignes;

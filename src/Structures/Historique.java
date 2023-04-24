@@ -29,12 +29,9 @@ public class Historique {
         if(coup.num_joueur() == 1){
             coups_joueur1.add(coupIndexL1, coup);
             coupIndexL1++;
-            dernierCoupJoue = 1;
         }else{
             coups_joueur2.add(coupIndexL2, coup);
             coupIndexL2++;
-            
-            dernierCoupJoue = 2;
         }
 
         supprimer_suite_coup();
@@ -45,7 +42,7 @@ public class Historique {
     }
 
     
-    Coup annuler_coup(/* Prend un coup ? Ou on doit déterminer le dernier ? */){
+    Coup annuler_coup(){
         if (!peut_annuler()){
             System.err.println("Impossible d'annuler le coup. Aucun coup n'a été joué !");
             return null;
@@ -112,5 +109,10 @@ public class Historique {
         if (coups_joueur2.size() > coupIndexL2) {
             coups_joueur2.subList(coupIndexL2, coups_joueur2.size()).clear();
         }
+    }
+    
+    @Override
+    public String toString(){
+        return  coupIndexL1 + "\n" + coups_joueur1 + "\n" + coupIndexL2 + "\n" + coups_joueur2;
     }
 }

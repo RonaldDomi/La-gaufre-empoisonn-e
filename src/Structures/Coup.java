@@ -12,9 +12,17 @@ public class Coup {
     }
 
     public Coup(){
-        joueur = -1;
-        position = null;
-        tour = -1;
+        this.joueur = -1;
+        this.position = null;
+        this.tour = -1;
+    }
+    
+    public Coup(String stringCoup){
+        stringCoup = stringCoup.substring(0, stringCoup.length()-1);
+        String[] stringCoupSep = stringCoup.split("; ");
+        this.joueur = Integer.parseInt(stringCoupSep[0]);
+        this.position = new Position(stringCoupSep[1]);
+        this.tour = Integer.parseInt(stringCoupSep[2]);
     }
 
     public Position position() {
@@ -42,6 +50,6 @@ public class Coup {
     }
 
     public String toString(){
-        return "[" + joueur + "," + position + "," + tour + "]";
+        return "[" + joueur + "; " + position + "; " + tour + "]";
     }
 }
