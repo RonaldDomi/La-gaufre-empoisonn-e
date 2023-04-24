@@ -128,4 +128,30 @@ public class Jeu extends Observable {
             metAJour();
         }
     }
+
+    public Jeu Clone(){
+        Jeu j = new Jeu();
+        j.plateau = new Plateau(plateau().nb_lignes, plateau.nb_colonnes);
+        for (int i = 0; i < plateau.nb_lignes; i++) {
+            for (int k = 0; k < plateau.nb_colonnes; k++) {
+                j.plateau.tableau[i][k] = new Coup(plateau.tableau[i][k].joueur, plateau.tableau[i][k].position, plateau.tableau[i][k].tour);
+            }
+        }
+        j.plateau.nb_lignes = plateau.nb_lignes;
+        j.plateau.nb_colonnes = plateau().nb_colonnes;
+
+        j.joueur_courant = joueur_courant;
+        j.gagnant = gagnant;
+        j.tour = tour;
+
+        j.historique = historique.Clone();
+
+        if (coup_prévisualise != null)
+            j.coup_prévisualise = new Coup(coup_prévisualise.joueur, coup_prévisualise.position, coup_prévisualise.tour);
+        else
+            j.coup_prévisualise = null;
+
+        return j;
+    }
+
 }
