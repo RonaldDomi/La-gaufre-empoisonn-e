@@ -32,9 +32,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class InterfaceGraphique implements Runnable {
+public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
 	Jeu j;
 	CollecteurEvenements control;
+	JFrame frame;
+
+	boolean maximized;
 
 	static Font h1 = new Font("TimesRoman", Font.PLAIN, 20);
 	static Font h1Bold = new Font("TimesRoman", Font.BOLD, 20);
@@ -46,12 +49,15 @@ public class InterfaceGraphique implements Runnable {
 	}
 
 	public static void demarrer(Jeu j, CollecteurEvenements control) {
-		SwingUtilities.invokeLater(new InterfaceGraphique(j, control));
+		InterfaceGraphique vue = new InterfaceGraphique(j, control);
+		control.ajouteInterfaceUtilisateur(vue);
+		SwingUtilities.invokeLater(vue);
 	}
 
 	@Override
 	public void run() {
-		JFrame frame = new JFrame("Ma fenetre a moi");
+		frame = new JFrame("Gaufre");
+
 
 		JLabel nom1 = new JLabel("Joueur 1 ");
 		JLabel nom2 = new JLabel("Joueur 2 ");
@@ -62,6 +68,8 @@ public class InterfaceGraphique implements Runnable {
 
 		NiveauGraphique niv = new NiveauGraphique(j, nom1, nom2, butUndo, butRedo);
 		niv.addMouseListener(new AdaptateurSouris(niv, control));
+
+		frame.addKeyListener(new AdaptateurClavier(control));
 		frame.add(niv);
 		Box barre = Box.createVerticalBox();
 		JLabel label;
@@ -271,6 +279,18 @@ public class InterfaceGraphique implements Runnable {
 			}
 
 			barre.add(barre2);
+		}
+	}
+
+	public void toggleFullscreen() {
+		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		GraphicsDevice device = env.getDefaultScreenDevice();
+		if (maximized) {
+			device.setFullScreenWindow(null);
+			maximized = false;
+		} else {
+			device.setFullScreenWindow(frame);
+			maximized = true;
 		}
 	}
 }
