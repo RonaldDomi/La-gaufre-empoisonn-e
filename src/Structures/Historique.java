@@ -1,6 +1,5 @@
 package Structures;
 
-import java.util.List;
 import java.util.LinkedList;
 
 public class Historique {
@@ -9,12 +8,23 @@ public class Historique {
     int coupIndexL1=0;
     int coupIndexL2=0;
     int dernierCoupJoue=0;
-
+    
     Historique(){
         coups_joueur1 = new LinkedList<>();
         coups_joueur2 = new LinkedList<>();
     }
+    
+    
+    boolean peut_annuler(){
+        return (coupIndexL1 >= 1 || coupIndexL2 >= 1);
+    }
+    
+    
+    boolean peut_refaire(){
+        return (coupIndexL1 <= coups_joueur1.size() || coupIndexL2 <= coups_joueur2.size());
+    }
 
+    
     void ajouter_coup(Coup coup){
         if(coup.num_joueur() == 1){
             coups_joueur1.add(coupIndexL1, coup);
@@ -23,6 +33,7 @@ public class Historique {
         }else{
             coups_joueur2.add(coupIndexL2, coup);
             coupIndexL2++;
+            
             dernierCoupJoue = 2;
         }
 
@@ -33,12 +44,14 @@ public class Historique {
         System.out.println();
     }
 
+    
     Coup annuler_coup(/* Prend un coup ? Ou on doit déterminer le dernier ? */){
+        if (!peut_annuler()){
+            System.err.println("Impossible d'annuler le coup. Aucun coup n'a été joué !");
+            return null;
+        }
         Coup dernierJoue;
         switch(dernierCoupJoue) {
-            case (0):
-                System.err.println("Impossible d'annuler le coup. Aucun coup n'a été joué !");
-                return null;
             case (1):
                 coupIndexL1--;
                 dernierJoue = coups_joueur1.get(coupIndexL1);
@@ -55,15 +68,15 @@ public class Historique {
         }
         return dernierJoue;
     }
-
-
+    
 
     Coup refaire_coup() {
         Coup aRefaire;
+        if (!peut_refaire()){
+            System.err.println("Impossible de refaire le coup. Aucun coup n'a été annulé !");
+            return null;
+        }
         switch (dernierCoupJoue) {
-            case (0):
-                System.err.println("Impossible de refaire le coup. Aucun coup n'a été joué !");
-                return null;
             case (1):
                 if (coupIndexL2 == coups_joueur2.size()) {
                     System.err.println("Impossible de refaire le coup. Aucun coup n'a été annulé sur le joueur 2 !");
@@ -91,6 +104,7 @@ public class Historique {
         return aRefaire;
     }
 
+    
     void supprimer_suite_coup(){
         if (coups_joueur1.size() > coupIndexL1) {
             coups_joueur1.subList(coupIndexL1, coups_joueur1.size()).clear();
