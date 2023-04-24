@@ -43,6 +43,10 @@ public class Jeu extends Observable {
     }
     
     public boolean jouer_coup(int ligne, int colonne){
+        if (coup_previsualise != null){
+            coup_previsualise.vider();
+            coup_previsualise = null;
+        }
         if (plateau.get_tableau(ligne, colonne).est_vide()){
             if (ligne == 0 && colonne == 0){
                 gagnant = joueur_courant;
@@ -77,7 +81,6 @@ public class Jeu extends Observable {
         if (plateau.get_tableau(ligne, colonne).est_vide()){
             coup_previsualise = plateau.placer_coup(couleur, ligne, colonne, tour);
             metAJour();
-            return true;
         }
         return false;
     }
