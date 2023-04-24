@@ -14,6 +14,24 @@ public class Historique {
         coups_joueur2 = new LinkedList<>();
     }
     
+    Historique(String stringHist){
+        coups_joueur1 = new LinkedList<>();
+        coups_joueur2 = new LinkedList<>();
+        
+        String[] tabHist = stringHist.split("\n");
+        coupIndexL1 = Integer.parseInt(tabHist[0]);
+        coupIndexL2 = Integer.parseInt(tabHist[2]);
+        String[] tabHistL1 = tabHist[1].split(", ");
+        String[] tabHistL2 = tabHist[3].split(", ");
+        
+        for (int i = 0; i < tabHistL1.length; i++) {
+            coups_joueur1.add(new Coup(tabHistL1[i]));
+        }
+        for (int j = 0; j < tabHistL2.length; j++) {
+            coups_joueur2.add(new Coup(tabHistL2[j]));
+        }
+    }
+    
     
     boolean peut_annuler(){
         return (coupIndexL1 >= 1 || coupIndexL2 >= 1);

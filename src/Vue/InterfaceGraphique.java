@@ -25,6 +25,8 @@ package Vue;/*
  *          38401 Saint Martin d'Hères
  */
 
+import Structures.Export;
+import Structures.Import;
 import Structures.Jeu;
 
 import javax.swing.*;
@@ -186,6 +188,8 @@ public class InterfaceGraphique implements Runnable {
 				int r = Save.showSaveDialog(null);
 				if (r == JFileChooser.APPROVE_OPTION) {
 					System.out.println("Sauvgarder " + Save.getSelectedFile().getAbsolutePath());
+					Export exp = new Export(Save.getSelectedFile().getAbsolutePath());
+					exp.exporterJeu(j);
 				}
 				else{
 					System.out.println("Sauvgarde annulée");
