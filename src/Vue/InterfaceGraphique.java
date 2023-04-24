@@ -56,7 +56,11 @@ public class InterfaceGraphique implements Runnable {
 		JLabel nom1 = new JLabel("Joueur 1 ");
 		JLabel nom2 = new JLabel("Joueur 2 ");
 
-		NiveauGraphique niv = new NiveauGraphique(j, nom1, nom2);
+
+		JButton butUndo = new JButton("Annuler");
+		JButton butRedo = new JButton("Refaire");
+
+		NiveauGraphique niv = new NiveauGraphique(j, nom1, nom2, butUndo, butRedo);
 		niv.addMouseListener(new AdaptateurSouris(niv, control));
 		frame.add(niv);
 		Box barre = Box.createVerticalBox();
@@ -70,7 +74,7 @@ public class InterfaceGraphique implements Runnable {
 
 		barre.add(Box.createGlue());
 
-		historique(barre);
+		historique(barre, butUndo, butRedo);
 
 		barre.add(Box.createGlue());
 
@@ -144,11 +148,10 @@ public class InterfaceGraphique implements Runnable {
 		barre.add(barre2);
 	}
 
-	private void historique(Box barre){
+	private void historique(Box barre, JButton butUndo, JButton butRedo){
 
 		Box barre2 = Box.createHorizontalBox();
 
-		JButton butUndo = new JButton("Annuler");
 		ActionListener actionUndo = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -157,7 +160,6 @@ public class InterfaceGraphique implements Runnable {
 		};
 		butUndo.addActionListener(actionUndo);
 
-		JButton butRedo = new JButton("Refaire");
 		ActionListener actionRedo = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

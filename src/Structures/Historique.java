@@ -13,15 +13,15 @@ public class Historique {
         coups_joueur1 = new LinkedList<>();
         coups_joueur2 = new LinkedList<>();
     }
-    
-    
-    boolean peut_annuler(){
+
+
+    public boolean peut_annuler(){
         return (coupIndexL1 >= 1 || coupIndexL2 >= 1);
     }
     
     
-    boolean peut_refaire(){
-        return (coupIndexL1 <= coups_joueur1.size() || coupIndexL2 <= coups_joueur2.size());
+    public boolean peut_refaire(){
+        return (coupIndexL1 < coups_joueur1.size() || coupIndexL2 < coups_joueur2.size());
     }
 
     

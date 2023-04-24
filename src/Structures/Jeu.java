@@ -109,6 +109,10 @@ public class Jeu extends Observable {
         }
     }
 
+    public Historique get_historique(){
+        return historique;
+    }
+
     public void refaire_coup(){
         Coup coup_refait = historique.refaire_coup();
         if (coup_refait != null) {

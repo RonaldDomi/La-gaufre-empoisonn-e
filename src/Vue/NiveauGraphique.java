@@ -36,14 +36,17 @@ public class NiveauGraphique extends JComponent implements Observateur {
 	Jeu jeu;
 	int largeurCase, hauteurCase;
 	JLabel nom1, nom2;
+	JButton Undo, Redo;
 
 	static Font h1 = new Font("TimesRoman", Font.PLAIN, 20);
 	static Font h1Bold = new Font("TimesRoman", Font.BOLD, 20);
 
-	public NiveauGraphique(Jeu j, JLabel nom1, JLabel nom2) {
+	public NiveauGraphique(Jeu j, JLabel nom1, JLabel nom2, JButton Undo, JButton Redo) {
 
 		this.nom1 = nom1;
 		this.nom2 = nom2;
+		this.Undo = Undo;
+		this.Redo = Redo;
 		jeu = j;
 		jeu.ajouteObservateur(this);
 	}
@@ -99,6 +102,10 @@ public class NiveauGraphique extends JComponent implements Observateur {
 //			nom1.setFont(h1);
 			nom2.setText("• Joueur 2 ");
 		}
+
+		//Disable/Enable Undo/Redo
+		Undo.setEnabled(jeu.get_historique().peut_annuler());
+		Redo.setEnabled(jeu.get_historique().peut_refaire());
 
 		// Grille
 		g.setColor(Color.BLACK);
