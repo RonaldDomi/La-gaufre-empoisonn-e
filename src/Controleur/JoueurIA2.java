@@ -26,13 +26,15 @@ package Controleur;
  *          38401 Saint Martin d'Hères
  */
 
-import java.util.Random;
 import Structures.Jeu;
+import Structures.Position;
 
-class JoueurIA extends Joueur {
+import java.util.Random;
+
+class JoueurIA2 extends Joueur {
 	Random r;
 
-	JoueurIA(int n, Jeu p) {
+	JoueurIA2(int n, Jeu p) {
 		super(n, p);
 		r = new Random();
 	}
@@ -41,6 +43,7 @@ class JoueurIA extends Joueur {
 	boolean tempsEcoule() {
 		if (plateau.gagnant() == -1) {
 			// Pour cette IA, on selectionne aléatoirement une case libre
+            /*
 			int i, j;
 
 			i = r.nextInt(plateau.plateau().get_nb_lignes());
@@ -49,8 +52,56 @@ class JoueurIA extends Joueur {
 				i = r.nextInt(plateau.plateau().get_nb_lignes());
 				j = r.nextInt(plateau.plateau().get_nb_lignes());
 			}
-			return plateau.jouer_coup(i, j);
+			*/
+
+
+			if(!aDroit(0, 0)){
+				if (aBas(0,0))
+					return plateau.jouer_coup(1,0);
+                else
+					return plateau.jouer_coup(0,0);
+			}
+			else if ((!aBas(0,0)))
+				return plateau.jouer_coup(0, 1);
+
+			//position du poison (0, 0)
+			Position p = getBestPos(0,0);
+
+			return plateau.jouer_coup(p.ligne, p.colonne);
+
 		}
 		return false;
+
+	}
+
+	//ici on voit que pour gagner il faut ne pas supprimer en premier toute la partie droite ou basse
+	//une fois que l'adversaire supprime une des partie on supprime l autre
+	//et il nous reste ensuite que le poison donc on gagne
+	//on uitilise la methode diviser pour regner
+	//et des fonctions a bas et a droit
+
+	Position getBestPos(int i, int j){
+
+		if (aDroit(i,j)){
+			return getBestPos(i,j+1);
+		} else if (aBas(i,j)) {
+			return getBestPos(i+1, j);
+		} else
+			return new Position(i,j);
+	}
+
+
+	Boolean aBas(int i, int j){
+		if (i+1 < plateau.plateau().get_nb_lignes())
+			return plateau.plateau().get_tableau(i+1,j).est_vide();
+		else
+			return false;
+	}
+
+	Boolean aDroit(int i, int j){
+		if (j+1 < plateau.plateau().get_nb_colonnes())
+			return plateau.plateau().get_tableau(i,j+1).est_vide();
+		else
+			return false;
 	}
 }
