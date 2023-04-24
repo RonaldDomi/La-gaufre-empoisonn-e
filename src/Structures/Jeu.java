@@ -146,10 +146,10 @@ public class Jeu extends Observable {
 
         j.historique = historique.Clone();
 
-        if (coup_prévisualise != null)
-            j.coup_prévisualise = new Coup(coup_prévisualise.joueur, coup_prévisualise.position, coup_prévisualise.tour);
+        if (coup_previsualise != null)
+            j.coup_previsualise = new Coup(coup_previsualise.joueur, coup_previsualise.position, coup_previsualise.tour);
         else
-            j.coup_prévisualise = null;
+            j.coup_previsualise = null;
 
         return j;
     }
