@@ -21,6 +21,15 @@ public class Jeu extends Observable {
         this.gagnant = -1;
     }
 
+    public void charger(Jeu j){
+        this.plateau = j.plateau;
+        this.historique = j.historique;
+        this.joueur_courant = j.joueur_courant;
+        this.gagnant = j.gagnant;
+        this.tour = j.tour;
+        metAJour();
+    }
+
     public Jeu(int nb_lignes, int nb_colonnes){
         nouvelle_partie(nb_lignes, nb_colonnes);
     }
@@ -40,6 +49,20 @@ public class Jeu extends Observable {
         this.gagnant = -1;
         this.tour = 0;
         metAJour();
+    }
+
+    public void hist_jouer_coup(Coup coup){
+        if (coup.position().test_position(0, 0)){
+            gagnant = joueur_courant;
+        }
+        plateau.placer_coup(coup, coup.position().ligne, coup.position().colonne);
+        tour++;
+        joueur_courant = (1 - (joueur_courant - 1)) + 1;
+    }
+
+    public void hist_jouer_coup_annule(Coup coup){
+        plateau.placer_coup(coup, coup.position().ligne, coup.position().colonne);
+        joueur_courant = (1 - (joueur_courant - 1)) + 1;
     }
 
     public boolean jouer_coup(int ligne, int colonne){
@@ -102,6 +125,8 @@ public class Jeu extends Observable {
     }
 
     public void annuler_coup(){
+        if (coup_previsualise != null)
+            plateau.placer_coup(plateau.get_coup_vide(), coup_previsualise.position().ligne, coup_previsualise.position().colonne); // Coup vide
         Coup coup_annule = historique.annuler_coup();
         if (coup_annule != null) {
             coup_annule.vider();

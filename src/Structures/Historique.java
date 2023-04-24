@@ -7,7 +7,7 @@ public class Historique {
     LinkedList<Coup> coups_joueur2;
     int coupIndexL1=0;
     int coupIndexL2=0;
-    int dernierCoupJoue=0;
+    public int dernierCoupJoue=0;
     
     Historique(){
         coups_joueur1 = new LinkedList<>();
@@ -21,8 +21,8 @@ public class Historique {
         String[] tabHist = stringHist.split("\n");
         coupIndexL1 = Integer.parseInt(tabHist[0]);
         coupIndexL2 = Integer.parseInt(tabHist[2]);
-        String[] tabHistL1 = tabHist[1].split(", ");
-        String[] tabHistL2 = tabHist[3].split(", ");
+        String[] tabHistL1 = tabHist[1].substring(1, tabHist[1].length()-1).split(", ");
+        String[] tabHistL2 = tabHist[3].substring(1, tabHist[3].length()-1).split(", ");
         
         for (int i = 0; i < tabHistL1.length; i++) {
             coups_joueur1.add(new Coup(tabHistL1[i]));
@@ -39,7 +39,7 @@ public class Historique {
     
     
    public boolean peut_refaire(){
-        return (coupIndexL1 <= coups_joueur1.size() || coupIndexL2 <= coups_joueur2.size());
+        return (coupIndexL1 < coups_joueur1.size() || coupIndexL2 < coups_joueur2.size());
     }
 
     
@@ -130,5 +130,9 @@ public class Historique {
         if (coups_joueur2.size() > coupIndexL2) {
             coups_joueur2.subList(coupIndexL2, coups_joueur2.size()).clear();
         }
+    }
+
+    public String toString(){
+        return coupIndexL1 + "\n" + coups_joueur1 + "\n" + coupIndexL2 + "\n" + coups_joueur2 ;
     }
 }

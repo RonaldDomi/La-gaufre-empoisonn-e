@@ -18,7 +18,7 @@ public class Coup {
     }
     
     public Coup(String stringCoup){
-        stringCoup = stringCoup.substring(0, stringCoup.length()-1);
+        stringCoup = stringCoup.substring(1, stringCoup.length()-1);
         String[] stringCoupSep = stringCoup.split("; ");
         this.joueur = Integer.parseInt(stringCoupSep[0]);
         this.position = new Position(stringCoupSep[1]);

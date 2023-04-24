@@ -29,7 +29,7 @@ public class Export {
 	
 	
 	void exportTaille(Plateau plateau){
-		ecrireLigneNewLine(plateau.tableau[0].length + " " + plateau.tableau.length);
+		ecrireLigneNewLine(plateau.nb_lignes + " " + plateau.nb_colonnes);
 	}
 	
 	
@@ -39,6 +39,7 @@ public class Export {
 	
 	
 	void ecrireLigneNewLine(String string){
+		System.out.println(string);
 		try{
 			writer.write(string + "\n");
 			writer.flush();

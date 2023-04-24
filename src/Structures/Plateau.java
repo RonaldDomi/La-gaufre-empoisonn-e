@@ -21,6 +21,7 @@ public class Plateau {
         this.nb_lignes = Integer.parseInt(tabCoords[0]);
         this.nb_colonnes = Integer.parseInt(tabCoords[1]);
         this.tableau = new Coup[nb_lignes][nb_colonnes];
+        init_tableau();
     }
 
     Plateau(int nb_lignes, int nb_colonnes){
@@ -69,7 +70,7 @@ public class Plateau {
     Coup placer_coup(Coup coup, int ligne, int colonne){
         for (int i = ligne; i < nombre_lignes(); i++) {
             for (int j = colonne; j < nombre_colonnes(); j++) {
-                if (get_tableau(i, j).num_joueur() < 0){
+                if (get_tableau(i, j).position() == null){
                     tableau[i][j] = coup;
                 }
             }

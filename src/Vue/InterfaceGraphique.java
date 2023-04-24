@@ -216,7 +216,8 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
 				int r = Load.showOpenDialog(null);
 				if (r == JFileChooser.APPROVE_OPTION) {
 					System.out.println("Charger " + Load.getSelectedFile().getAbsolutePath());
-				}
+					Import imp = new Import(Load.getSelectedFile().getAbsolutePath());
+					j.charger(imp.lire_fichier());				}
 				else
 					System.out.println("Chargement annulée");
 			}
