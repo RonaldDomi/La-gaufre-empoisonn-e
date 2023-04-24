@@ -8,7 +8,7 @@ public class Jeu extends Observable {
     int joueur_courant;
     int gagnant;
     int tour;
-    Coup coup_prévisualise;
+    Coup coup_previsualise;
 
     public Jeu(Plateau plateau){
         this.plateau = plateau;
@@ -58,16 +58,16 @@ public class Jeu extends Observable {
     }
 
     public boolean jouer_coup(int ligne, int colonne, int couleur) {
-        if (coup_prévisualise != null){
-            if (!coup_prévisualise.position().test_position(ligne, colonne))
-                plateau.placer_coup(plateau.get_coup_vide(), coup_prévisualise.position().ligne, coup_prévisualise.position().colonne); // Coup vide
+        if (coup_previsualise != null){
+            if (!coup_previsualise.position().test_position(ligne, colonne))
+                plateau.placer_coup(plateau.get_coup_vide(), coup_previsualise.position().ligne, coup_previsualise.position().colonne); // Coup vide
             else{
                 if (ligne == 0 && colonne == 0){
                     gagnant = joueur_courant;
                 }
-                coup_prévisualise.changer_joueur(joueur_courant);
-                historique.ajouter_coup(coup_prévisualise);
-                coup_prévisualise = null;
+                coup_previsualise.changer_joueur(joueur_courant);
+                historique.ajouter_coup(coup_previsualise);
+                coup_previsualise = null;
                 tour++;
                 joueur_courant = (1 - (joueur_courant - 1)) + 1;
                 metAJour();
@@ -75,7 +75,7 @@ public class Jeu extends Observable {
             }
         }
         if (plateau.get_tableau(ligne, colonne).est_vide()){
-            coup_prévisualise = plateau.placer_coup(couleur, ligne, colonne, tour);
+            coup_previsualise = plateau.placer_coup(couleur, ligne, colonne, tour);
             metAJour();
             return true;
         }
