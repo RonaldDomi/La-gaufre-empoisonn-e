@@ -135,4 +135,17 @@ public class Historique {
     public String toString(){
         return coupIndexL1 + "\n" + coups_joueur1 + "\n" + coupIndexL2 + "\n" + coups_joueur2 ;
     }
+
+    public Historique Clone(){
+        Historique h = new Historique();
+        h.coups_joueur1 = (LinkedList<Coup>) coups_joueur1.clone();
+        h.coups_joueur2 = (LinkedList<Coup>) coups_joueur2.clone();
+
+
+        h.coupIndexL1 = coupIndexL1;
+        h.coupIndexL2 = coupIndexL2;
+        h.dernierCoupJoue = dernierCoupJoue;
+
+        return h;
+    }
 }
